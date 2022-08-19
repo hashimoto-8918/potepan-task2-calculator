@@ -1,18 +1,16 @@
-
 let result = "";
-
-let calc = false;
+let last_key_was_equal = false;
 
 result = document.getElementById('result');
 
-function allclear(){
+function allClear(){
   result.value = "0";
-  calc = false;
+  last_key_was_equal = false;
 }
 
 function number(value){
-  if(calc)  result.value = "0";
-  calc = false;  
+  if(last_key_was_equal)  result.value = "0";
+    last_key_was_equal = false;
 
   if(result.value =="0" && value == "0"){
     result.value = "0";
@@ -21,15 +19,15 @@ function number(value){
   }else if(result.value == "0"){
     result.value = value;
   }else{
-    result.value += value;
+    result.value = result.value + value;
   }
 }
 
 function operator(value){
-  if(calc) calc = false;
+  if(last_key_was_equal)  last_key_was_equal = false;
   
   if(is_ope_last()){
-    result.value = result.value.slice(0, -1) + value;
+    result.value = result.value.slice(0,-1) + value;
   } else {
     result.value += value;
   }
@@ -37,14 +35,10 @@ function operator(value){
 
 function equal(){
   if(is_ope_last())  result.value = result.value.slice(0, -1);
-
-  let temp = new Function("return " + result.value.replaceAll("×", "*").replaceAll("÷", "/"))();
-  if(temp == Infinity || Number.isNaN(temp)){
-    result.value = "Error";
-  }else{
+  let temp = eval(result.value.replaceAll("×", "*").replaceAll("÷", "/"));
+  
     result.value = temp;
-    calc = true;
-  }
+    last_key_was_equal = true;
 }
 
 function is_ope_last(){
