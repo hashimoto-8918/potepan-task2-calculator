@@ -36,7 +36,7 @@ function operator(value){
 function equal(){
   if(is_ope_last())  result.value = result.value.slice(0, -1);
   let temp = eval(result.value.replaceAll("×", "*").replaceAll("÷", "/"));
-  
+    temp = Math.round(temp*100)/100
     result.value = temp;
     last_key_was_equal = true;
 }
